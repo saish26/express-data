@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { find, send } from '../services/user.service'
+import { find, remove, send } from '../services/user.service'
 
 export const getUsers = async (
   req: Request,
@@ -11,6 +11,18 @@ export const getUsers = async (
     res.send(data)
   } catch (e) {
     next(e)
+  }
+}
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data = await remove(parseInt(req.params.id))
+    res.send(data)
+  } catch (error) {
+    next(error)
   }
 }
 export const postUsers = async (
