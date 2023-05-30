@@ -1,5 +1,6 @@
 import Boom from '@hapi/boom'
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -24,9 +25,10 @@ export const remove = async (id: any) => {
   }
 }
 export const send = async (user: any) => {
-  const { email, name, address } = user
+  const { email, name, address, password } = user
   const users = await prisma.user.create({
     data: {
+      password: await bcrypt.hash(password as string, 10),
       email,
       name,
       address,
